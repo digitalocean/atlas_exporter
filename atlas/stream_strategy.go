@@ -117,9 +117,14 @@ func (s *streamingStrategy) listenForResults(ctx context.Context, timeout time.D
 			}
 
 			go s.processMeasurement(m)
-		case <-time.After(timeout):
-			log.Errorf("Timeout reached. Trying to reconnect.")
-			return
+		// XXX this case seems to be a workaround for something that should
+		// be fixed in an upstream library, and seems to cause channels to
+		// stick around without their data being read.
+		/*
+			case <-time.After(timeout):
+				log.Errorf("Timeout reached. Trying to reconnect.")
+				return
+		*/
 		case <-ctx.Done():
 			return
 		}
