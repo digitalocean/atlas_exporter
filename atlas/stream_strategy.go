@@ -102,7 +102,11 @@ func (s *streamingStrategy) subscribe(id string) (<-chan *measurement.Result, er
 func (s *streamingStrategy) listenForResults(ctx context.Context, timeout time.Duration, ch <-chan *measurement.Result) {
 	for {
 		select {
-		case m := <-ch:
+		case m, ok := <-ch:
+			if !ok {
+				log.Error("channel closed")
+				return
+			}
 			if m.ParseError != nil {
 				log.Error(m.ParseError)
 			}
