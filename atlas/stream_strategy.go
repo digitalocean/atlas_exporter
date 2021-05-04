@@ -116,7 +116,7 @@ func (s *streamingStrategy) listenForResults(ctx context.Context, timeout time.D
 				return
 			}
 
-			s.processMeasurement(m)
+			go s.processMeasurement(m)
 		case <-time.After(timeout):
 			log.Errorf("Timeout reached. Trying to reconnect.")
 			return
