@@ -80,6 +80,8 @@ github.com/digitalocean/ripeatlas v0.0.0-20210504234211-903c81b0862a h1:J1i9WX5T
 github.com/digitalocean/ripeatlas v0.0.0-20210504234211-903c81b0862a/go.mod h1:SvVsPwhes3CGTzLE3btxIfYyF/jJhoMYN5Zb/aWjBks=
 github.com/digitalocean/ripeatlas v0.0.0-20210505051840-4ed087e8eb1c h1:vHq59WfqS+sXJhM4AEB86TBVIakIiW3Xk2ambwlQPyo=
 github.com/digitalocean/ripeatlas v0.0.0-20210505051840-4ed087e8eb1c/go.mod h1:SvVsPwhes3CGTzLE3btxIfYyF/jJhoMYN5Zb/aWjBks=
+github.com/digitalocean/ripeatlas v0.0.0-20210505184633-cc23804aa35e h1:LqcrGbZ8YF6ndxxJkmT/r8IWG+rf+O60IjUX7Y8rguU=
+github.com/digitalocean/ripeatlas v0.0.0-20210505184633-cc23804aa35e/go.mod h1:SvVsPwhes3CGTzLE3btxIfYyF/jJhoMYN5Zb/aWjBks=
 github.com/dustin/go-humanize v0.0.0-20171111073723-bb3d318650d4 h1:qk/FSDDxo05wdJH28W+p5yivv7LuLYLRXPPD8KQCtZs=
 github.com/dustin/go-humanize v0.0.0-20171111073723-bb3d318650d4/go.mod h1:HtrtbFcZ19U5GC7JDqmcUSB87Iq5E25KnS6fMYU6eOk=
 github.com/eapache/go-resiliency v1.1.0 h1:1NtRmCAqadE2FN4ZcN6g90TP3uk8cg9rn9eNK2197aU=
