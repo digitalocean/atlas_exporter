@@ -5,4 +5,5 @@ debug
 .vscode/*
 *.iml
 
+config.yml
 

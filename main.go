@@ -5,6 +5,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -13,7 +14,6 @@ import (
 	"github.com/czerwonk/atlas_exporter/atlas"
 	"github.com/czerwonk/atlas_exporter/config"
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/prometheus/common/log"
 
 	_ "net/http/pprof"
@@ -37,6 +37,8 @@ var (
 	streaming        = flag.Bool("streaming", true, "Retrieve data by subscribing to Atlas Streaming API")
 	streamingTimeout = flag.Duration("streaming.timeout", streamTimeout, "When no update is received in this timespan a reconnect is initiated.")
 	profiling        = flag.Bool("profiling", false, "Enables pprof endpoints")
+	goMetrics        = flag.Bool("metrics.go", true, "Enables go runtime prometheus metrics")
+	processMetrics   = flag.Bool("metrics.process", true, "Enables process runtime prometheus metrics")
 	cfg              *config.Config
 	strategy         atlas.Strategy
 )
@@ -169,16 +171,28 @@ func handleMetricsRequest(w http.ResponseWriter, r *http.Request) error {
 		return err
 	}
 
-	if len(measurements) > 0 {
-		reg := prometheus.NewRegistry()
+	reg := prometheus.NewRegistry()
 
+	// add process metrics
+	if *processMetrics {
+		processCollector := prometheus.NewProcessCollector(prometheus.ProcessCollectorOpts{})
+		reg.MustRegister(processCollector)
+	}
+
+	// add go collector metrics
+	if *goMetrics {
+		goCollector := prometheus.NewGoCollector()
+		reg.MustRegister(goCollector)
+	}
+
+	if len(measurements) > 0 {
 		c := newCollector(measurements)
 		reg.MustRegister(c)
-
-		promhttp.HandlerFor(reg, promhttp.HandlerOpts{
-			ErrorLog:      log.NewErrorLogger(),
-			ErrorHandling: promhttp.ContinueOnError}).ServeHTTP(w, r)
 	}
+
+	promhttp.HandlerFor(reg, promhttp.HandlerOpts{
+		ErrorLog:      log.NewErrorLogger(),
+		ErrorHandling: promhttp.ContinueOnError}).ServeHTTP(w, r)
 
 	return nil
 }
