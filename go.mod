@@ -10,4 +10,4 @@ require (
 	gopkg.in/yaml.v2 v2.4.0
 )
 
-replace github.com/DNS-OARC/ripeatlas v0.0.0-20171113072002-0ef1b8935530 => github.com/digitalocean/ripeatlas v0.0.0-20210505184633-cc23804aa35e
+replace github.com/DNS-OARC/ripeatlas => github.com/digitalocean/ripeatlas v0.0.0-20210505184633-cc23804aa35e
