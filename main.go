@@ -5,7 +5,6 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -14,6 +13,7 @@ import (
 	"github.com/czerwonk/atlas_exporter/atlas"
 	"github.com/czerwonk/atlas_exporter/config"
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/prometheus/common/log"
 
 	_ "net/http/pprof"
@@ -39,6 +39,7 @@ var (
 	profiling        = flag.Bool("profiling", false, "Enables pprof endpoints")
 	goMetrics        = flag.Bool("metrics.go", true, "Enables go runtime prometheus metrics")
 	processMetrics   = flag.Bool("metrics.process", true, "Enables process runtime prometheus metrics")
+	logLevel         = flag.String("log.level", "info", "Only log messages with the given severity or above. Valid levels: [debug, info, warn, error, fatal]")
 	cfg              *config.Config
 	strategy         atlas.Strategy
 )
@@ -53,6 +54,9 @@ func init() {
 
 func main() {
 	flag.Parse()
+
+	logger := log.Base()
+	logger.SetLevel(*logLevel)
 
 	if *showVersion {
 		printVersion()
